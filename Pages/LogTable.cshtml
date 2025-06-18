@@ -1,0 +1,159 @@
+@page
+@model LoggerAnalyzer2.Pages.LogTableModel
+@{
+    ViewData["Title"] = "Информация о логировании";
+    <link rel="stylesheet" href="~/css/logtable.css" />
+    <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link rel="stylesheet" href="~/css/status-bar.css" />
+}
+
+<div class="filters-sidebar">
+    <div class="sidebar-logo"><a asp-area="" asp-page="/Index">LoggerAnalyzer2</a></div>
+    <div class="sidebar-header">Фильтры</div>
+    <div class="sidebar-content">
+        <form method="get" id="combinedForm" action="/LogTable" target="resultFrame">
+            <input type="hidden" name="isPartial" value="true" />
+
+            <input type="hidden" id="hiddenSearchText" name="SearchText" value="@Model.SearchText" />
+
+            <div class="sidebar-filter-group">
+                <div class="sidebar-filter-title filter-strip" data-filter="file">
+                    <i class="bi bi-buildings"></i>
+                    <span>Файл</span>
+                    <a href="javascript:void(0);" class="filter-toggle-link @(Model.ExpandedFilter == "file" ? "open" : "")">
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                </div>
+                <div class="sidebar-filter-content @(Model.ExpandedFilter == "file" ? "show" : "")">
+                    @foreach (var fileName in Model.UniqueFileNames)
+                    {
+                        <div class="sidebar-form-check">
+                            <input class="form-check-input" type="checkbox" name="FileNameFilters" value="@fileName" id="file_@fileName.GetHashCode()" @(Model.FileNameFilters.Contains(fileName) ? "checked" : "") />
+                            <label class="form-check-label" for="file_@fileName.GetHashCode()">@fileName</label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="sidebar-filter-group">
+                <div class="sidebar-filter-title filter-strip" data-filter="class">
+                    <i class="bi bi-person-badge"></i>
+                    <span>Класс</span>
+                    <a href="javascript:void(0);" class="filter-toggle-link @(Model.ExpandedFilter == "class" ? "open" : "")">
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                </div>
+                <div class="sidebar-filter-content @(Model.ExpandedFilter == "class" ? "show" : "")">
+                    @foreach (var className in Model.UniqueClassNames)
+                    {
+                        <div class="sidebar-form-check">
+                            <input class="form-check-input" type="checkbox" name="ClassNameFilters" value="@className" id="class_@className.GetHashCode()" @(Model.ClassNameFilters.Contains(className) ? "checked" : "") />
+                            <label class="form-check-label" for="class_@className.GetHashCode()">@className</label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="sidebar-filter-group">
+                <div class="sidebar-filter-title filter-strip" data-filter="method">
+                    <i class="bi bi-gear"></i>
+                    <span>Метод</span>
+                    <a href="javascript:void(0);" class="filter-toggle-link @(Model.ExpandedFilter == "method" ? "open" : "")">
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                </div>
+                <div class="sidebar-filter-content @(Model.ExpandedFilter == "method" ? "show" : "")">
+                    @foreach (var methodName in Model.UniqueMethodNames)
+                    {
+                        <div class="sidebar-form-check">
+                            <input class="form-check-input" type="checkbox" name="MethodNameFilters" value="@methodName" id="method_@methodName.GetHashCode()" @(Model.MethodNameFilters.Contains(methodName) ? "checked" : "") />
+                            <label class="form-check-label" for="method_@methodName.GetHashCode()">@methodName</label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="sidebar-filter-group">
+                <div class="sidebar-filter-title filter-strip" data-filter="type">
+                    <i class="bi bi-list-task"></i>
+                    <span>Тип</span>
+                    <a href="javascript:void(0);" class="filter-toggle-link @(Model.ExpandedFilter == "type" ? "open" : "")">
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                </div>
+                <div class="sidebar-filter-content @(Model.ExpandedFilter == "type" ? "show" : "")">
+                    @foreach (var logType in Model.UniqueLogTypes)
+                    {
+                        <div class="sidebar-form-check">
+                            <input class="form-check-input" type="checkbox" name="LogTypeFilters" value="@logType" id="type_@logType.GetHashCode()" @(Model.LogTypeFilters.Contains(logType) ? "checked" : "") />
+                            <label class="form-check-label" for="type_@logType.GetHashCode()">@logType</label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <input type="hidden" name="SearchColumns" value="FileName" />
+            <input type="hidden" name="SearchColumns" value="ClassName" />
+            <input type="hidden" name="SearchColumns" value="MethodName" />
+            <input type="hidden" name="SearchColumns" value="LogText" />
+            <input type="hidden" name="SearchColumns" value="Message" />
+            <input type="hidden" name="ExpandedFilter" value="@Model.ExpandedFilter" />
+
+        </form>
+    </div>
+    <div class="sidebar-button-container">
+        <button type="submit" class="btn btn-lg" form="combinedForm">Применить</button>
+        <a href="/LogTable" class="btn btn-outline">Сбросить</a>
+    </div>
+</div>
+
+<div class="content-container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="search-card">
+                <div class="search-controls">
+                    <div class="search-input-container">
+                        <input type="text" class="form-control form-control-lg" placeholder="Поиск..." value="@Model.SearchText" id="searchInput" />
+                    </div>
+                </div>
+                
+                <script>
+                    window.onload = function() {
+
+                        document.getElementById('searchInput').addEventListener('input', function() {
+                            document.getElementById('hiddenSearchText').value = this.value;
+                            document.getElementById('combinedForm').submit();
+                        });
+                    };
+                </script>
+            </div>
+
+            <div class="iframe-container">
+                 <iframe name="resultFrame" id="resultFrame"></iframe>
+            </div>
+            
+            <script>
+
+                window.addEventListener('load', function() {
+                    document.getElementById('resultFrame').src = '/LogTable?isPartial=true';
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+<div class="spacer"></div>
+
+<div class="status-bar" id="status-bar">
+    <table>
+        <tr>
+            <td><i class="bi bi-bug"></i> Debug: @Model.DebugCount</td>
+            <td><i class="bi bi-info-circle"></i> Info: @Model.InfoCount</td>
+            <td><i class="bi bi-exclamation-triangle"></i> Warning: @Model.WarningCount</td>
+            <td><i class="bi bi-x-circle"></i> Error: @Model.ErrorCount</td>
+            <td><i class="bi bi-exclamation-octagon"></i> Critical: @Model.CriticalCount</td>
+            <td><i class="bi bi-list-check"></i> Total: @Model.TotalCount</td>
+        </tr>
+    </table>
+</div>
+

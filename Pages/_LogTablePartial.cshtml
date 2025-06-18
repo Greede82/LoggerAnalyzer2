@@ -1,0 +1,88 @@
+@model LoggerAnalyzer2.Pages.LogTableModel
+
+<link rel="stylesheet" href="/css/logtable.css" />
+<link rel="stylesheet" href="/css/sidebar.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+<div class="log-table-container">
+    @if (Model.FilteredLogs.Any())
+    {
+        <table class="log-table">
+            <thead>
+                <tr>
+                    <th class="log-table-filename">Название файла</th>
+                    <th class="log-table-class">Класс</th>
+                    <th class="log-table-method">Метод</th>
+                    <th class="log-table-type">Тип</th>
+                    <th class="log-table-message">Сообщение</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var log in Model.FilteredLogs)
+                {
+                    <tr>
+                        <td class="@(log.MatchedFields.Contains("FileName") || Model.FileNameFilters.Contains(log.FileName) ? "highlighted-cell" : "")">
+                            @if (log.MatchedFields.Contains("FileName") && !string.IsNullOrEmpty(log.SearchText))
+                            {
+                                @Html.Raw(Model.HighlightSearchTerms(log.FileName ?? "", log.SearchText))
+                            }
+                            else
+                            {
+                                @log.FileName
+                            }
+                        </td>
+                        <td class="@(log.MatchedFields.Contains("ClassName") || Model.ClassNameFilters.Contains(log.ClassName) ? "highlighted-cell" : "")">
+                            @if (log.MatchedFields.Contains("ClassName") && !string.IsNullOrEmpty(log.SearchText))
+                            {
+                                @Html.Raw(Model.HighlightSearchTerms(log.ClassName ?? "", log.SearchText))
+                            }
+                            else
+                            {
+                                @log.ClassName
+                            }
+                        </td>
+                        <td class="@(log.MatchedFields.Contains("MethodName") || Model.MethodNameFilters.Contains(log.MethodName) ? "highlighted-cell" : "")">
+                            @if (log.MatchedFields.Contains("MethodName") && !string.IsNullOrEmpty(log.SearchText))
+                            {
+                                @Html.Raw(Model.HighlightSearchTerms(log.MethodName ?? "", log.SearchText))
+                            }
+                            else
+                            {
+                                @log.MethodName
+                            }
+                        </td>
+                        <td class="@(log.MatchedFields.Contains("LogText") || Model.LogTypeFilters.Contains(log.LogText) ? "highlighted-cell" : "")">
+                            @if (log.MatchedFields.Contains("LogText") && !string.IsNullOrEmpty(log.SearchText))
+                            {
+                                @Html.Raw(Model.HighlightSearchTerms(log.LogText ?? "", log.SearchText))
+                            }
+                            else
+                            {
+                                @log.LogText
+                            }
+                        </td>
+                        <td class="@(log.MatchedFields.Contains("Message") || Model.MessageFilters.Contains(log.Message) ? "highlighted-cell" : "")">
+                            @if (log.MatchedFields.Contains("Message") && !string.IsNullOrEmpty(log.SearchText))
+                            {
+                                @Html.Raw(Model.HighlightSearchTerms(log.Message ?? "", log.SearchText))
+                            }
+                            else
+                            {
+                                @log.Message
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info mt-3 no-data-message">
+            <p>Нет данных для отображения. Попробуйте изменить критерии поиска.</p>
+            <div class="text-center mt-3">
+                <a href="/LogTable" class="btn btn-primary btn-lg">Назад</a>
+            </div>
+        </div>
+    }
+</div>

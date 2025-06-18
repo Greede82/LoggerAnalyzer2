@@ -1,0 +1,235 @@
+.filters-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 230px;
+    background-color: #f5f5f5;
+    color: #333;
+    padding: 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    z-index: 1000;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: thin; 
+    scrollbar-color: #4682B4 #f5f5f5;
+}
+
+.sidebar-logo {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    background-color: #3a6d99;
+}
+
+.sidebar-logo a {
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    padding: 5px 0;
+    width: 100%;
+    background-color: #4682B4;
+}
+
+.sidebar-content {
+    width: 100%;
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 20px; 
+}
+
+.filters-sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.filters-sidebar::-webkit-scrollbar-track {
+    background: #f5f5f5;
+}
+
+.filters-sidebar::-webkit-scrollbar-thumb {
+    background-color: #4682B4;
+    border-radius: 4px;
+}
+
+.sidebar-button-container {
+    padding: 10px 15px;
+    width: 100%;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.sidebar-button-container .btn-lg {
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #4682B4;
+    color: white;
+    border-color: #4682B4;
+}
+
+.sidebar-button-container .btn-outline {
+    width: 100%;
+    color: #4682B4;
+    border-color: #4682B4;
+}
+
+.btn-apply {
+    width: 100%;
+    margin-bottom: 5px;
+    background-color: #4682B4;
+    color: white;
+    border-color: #4682B4;
+    font-size: 16px;
+    padding: 6px 0;
+}
+
+.btn-reset {
+    width: 100%;
+    color: #4682B4;
+    border-color: #4682B4;
+    font-size: 16px;
+    padding: 6px 0;
+}
+
+.sidebar-filter-group {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.sidebar-filter-title.filter-strip {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    color: #222;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(60,60,60,0.07);
+    margin-bottom: 15px;
+    padding: 0 16px 0 12px;
+    height: 54px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.sidebar-filter-title.filter-strip:hover {
+    background: #f0f4fa;
+    box-shadow: 0 2px 8px rgba(60,60,60,0.13);
+}
+.sidebar-filter-title.filter-strip i.bi {
+    font-size: 22px;
+    margin-right: 13px;
+    color: #4682B4;
+}
+.sidebar-filter-title.filter-strip .filter-toggle-link {
+    margin-left: auto;
+    color: #4682B4;
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+    transition: color 0.2s;
+}
+.sidebar-filter-title.filter-strip .filter-toggle-link.open i.bi {
+    transform: rotate(180deg);
+}
+.sidebar-filter-title.filter-strip span {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.sidebar-filter-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #4682B4;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    width: 100%;
+    color: white;
+}
+
+.filter-toggle-link {
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.filter-toggle-link:hover {
+    color: #f0f0f0;
+}
+
+.sidebar-filter-content {
+    padding: 1px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0;
+}
+
+.sidebar-filter-content.show {
+    max-height: 300px;
+    opacity: 1;
+}
+
+.filter-toggle-link span {
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.filter-toggle-link.open span {
+    transform: rotate(180deg);
+}
+
+.sidebar-form-check {
+    margin-bottom: 10px;
+}
+
+.sidebar-form-check input[type="checkbox"] {
+    transform: scale(1.2);
+    margin-right: 8px;
+}
+
+.sidebar-form-check label {
+    font-size: 16px;
+}
+
+.sidebar-button {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px 0;
+    font-weight: bold;
+}
+
+.sidebar-button:first-child {
+    background-color: #4682B4;
+    border-color: #4682B4;
+    color: white;
+}
+
+.sidebar-button-container .btn-lg {
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #4682B4;
+    color: white;
+    border-color: #4682B4;
+}
+
+.sidebar-button-container .btn-outline {
+    width: 100%;
+    color: #4682B4;
+    border-color: #4682B4;
+}
