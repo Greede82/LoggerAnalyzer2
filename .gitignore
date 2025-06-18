@@ -1,13 +1,8 @@
-# Visual Studio
+bin/
+obj/
 .vs/
 *.user
 *.suo
-*.cache
-
-# Build
-bin/
-obj/
-
-# Other
-*.log
-*.tmp
+packages/
+.vscode/
+appsettings.Development.json
